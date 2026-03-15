@@ -4,20 +4,26 @@ def get_location_from_ip(ip):
     # Using a free service for geolocation (ip-api.com)
     # Note: In production, consider a more robust/paid API or local GeoLite database.
     if ip == '127.0.0.1' or ip == 'localhost':
-        return {"country": "Localhost"}
+        return {"location": "Localhost"}
         
     try:
         response = requests.get(f"http://ip-api.com/json/{ip}", timeout=3)
         if response.status_code == 200:
             data = response.json()
             if data['status'] == 'success':
+                city = data.get('city')
+                region = data.get('regionName')
+                country = data.get('country')
+                
+                parts = [p for p in [city, region, country] if p and p != 'Unknown']
+                location_str = ", ".join(parts) if parts else "Unknown"
+                
                 return {
-                    "country": data.get('country', 'Unknown'),
-                    "city": data.get('city', 'Unknown')
+                    "location": location_str
                 }
     except Exception as e:
         print(f"Geolocation API error: {e}")
-    return {"country": "Unknown", "city": "Unknown"}
+    return {"location": "Unknown"}
 
 def calculate_risk_score(login_data, previous_logins):
     score = 0
@@ -30,13 +36,13 @@ def calculate_risk_score(login_data, previous_logins):
         score += 40
         reasons.append("New device")
 
-    # New Country
-    known_countries = {log.get('country') for log in previous_logins if log.get('country') and log.get('country') != 'Unknown'}
+    # New Location Area
+    known_locations = {log.get('location') for log in previous_logins if log.get('location') and log.get('location') != 'Unknown'}
     
-    if login_data.get('country') != 'Unknown':
-        if login_data.get('country') not in known_countries and len(known_countries) > 0:
+    if login_data.get('location') != 'Unknown':
+        if login_data.get('location') not in known_locations and len(known_locations) > 0:
             score += 40
-            reasons.append("New country")
+            reasons.append("New location area")
 
     # Unusual time (Simplified heuristic: e.g. login between 2 AM and 5 AM local time, but we just use server time here for simplicity)
     # A complete implementation would compare the time deviation from the user's usual login hours.

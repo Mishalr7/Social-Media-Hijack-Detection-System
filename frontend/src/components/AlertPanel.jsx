@@ -33,7 +33,7 @@ function AlertPanel({ alerts, loading }) {
                   </span>
                 </div>
                 <h4 className="text-gray-200 font-medium text-sm mb-3">
-                  Suspicious login from <span className="text-white font-bold">{alert.country}</span>
+                  Suspicious login from <span className="text-white font-bold">{alert.location}</span>
                 </h4>
                 <div className="space-y-1">
                   <div className="text-xs text-gray-400 flex justify-between">

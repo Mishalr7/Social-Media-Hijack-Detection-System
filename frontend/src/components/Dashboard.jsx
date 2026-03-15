@@ -164,7 +164,7 @@ function Dashboard() {
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2">
                               <FiMapPin className="w-4 h-4 text-gray-500 group-hover:text-indigo-400 transition-colors" />
-                              <span className="font-medium text-gray-300">{log.country || 'Unknown'}</span>
+                              <span className="font-medium text-gray-300">{log.location || 'Unknown'}</span>
                             </div>
                           </td>
                           <td className="px-6 py-4">
