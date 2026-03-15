@@ -1,5 +1,7 @@
 # Social Media Hijack Detection System
 
+**Live Demo:** [https://social-media-hijack-detection-syste.vercel.app](https://social-media-hijack-detection-syste.vercel.app)
+
 A secure full-stack web application designed to detect suspicious login attempts and possible account hijacking by analyzing login behavior such as IP address, device fingerprint, geolocation, and login patterns.
 
 ## Features
