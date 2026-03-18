@@ -64,6 +64,9 @@ def login():
     device = request.headers.get('User-Agent')
     location_data = get_location_from_ip(ip_address)
     location = location_data.get('location', 'Unknown')
+    lat = location_data.get('lat')
+    lon = location_data.get('lon')
+    isp = location_data.get('isp', 'Unknown')
     timestamp = datetime.now(timezone.utc)
 
     # Fetch previous logs for this user to calculate risk score
@@ -74,6 +77,9 @@ def login():
         "ip_address": ip_address,
         "device": device,
         "location": location,
+        "lat": lat,
+        "lon": lon,
+        "isp": isp,
         "timestamp": timestamp,
     }
 
